@@ -1,0 +1,1 @@
+for l in `cat /etc/nscrub/nscrub.conf|grep eth[0-9] -o`;do rx=`ethtool --show-rxfh-indir $l|grep -E "(1\\ RX16|2\\ RX|3\\ RX|4\\ RX|5\\ RX|6\\ RX|7\\ RX|8\\ RX|9\\ RX|10\\ RX|11\\ RX|12\\ RX|13\\ RX|14\\ RX|15\\ RX|16\\ RX)"  -o `;echo $l $rx;done
