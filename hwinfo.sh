@@ -1,0 +1,1 @@
+th=`cat /proc/cpuinfo|grep MHz|wc -l`;cpus=`cat /proc/cpuinfo | grep "physical id" | sort -u | wc -l`;cores=`egrep -e "core id" -e ^physical /proc/cpuinfo|xargs -l2 echo|sort -u |wc -l`;echo -n "CPUs: $cpus ";echo -n "Cores: $cores " ;echo "Threads: $th"
