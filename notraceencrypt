@@ -1,0 +1,15 @@
+#!/bin/bash
+if [ $# -ne 1 ]
+then
+	echo blh
+	exit 
+fi
+if [ ! -f $1 ] 
+then
+	echo file $1 does not exist 
+	exit 
+fi
+openssl enc -aes256 -in $1 -out $1.out
+dd bs=128k skip=8 if=$1.out of=$1.out.tmp  iflag=skip_bytes
+mv $1.out.tmp $1.encrypted
+rm -f $1.out
