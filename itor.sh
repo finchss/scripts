@@ -41,7 +41,7 @@ do
 	chown debian-tor.debian-tor /var/run/tor$i
 
 	chmod 0700 /var/lib/tor$i/
-	chmod 2755 /var/run/tor$i/
+	chmod 0700 /var/run/tor$i/
 
 
 	cat > /usr/share/tor/tor-service-defaults-torrc$i  <<EOF
