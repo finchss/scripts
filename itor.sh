@@ -44,7 +44,10 @@ EOF
 
 	let "port=9050+$i"
 	echo "SOCKSPort $port" > /etc/tor/torrc$i
-	#echo 'EntryNodes {us}' >> /etc/tor/torrc$i
+	echo 'EntryNodes {RO}' >> /etc/tor/torrc$i
+	echo "Log debug file /dev/null " >>  /etc/tor/torrc$i
+	echo "Log notice file /dev/null" >> /etc/tor/torrc$i
+	echo "Log debug file /dev/null" >>  /etc/tor/torrc$i
 
 	/usr/bin/tor --defaults-torrc /usr/share/tor/tor-service-defaults-torrc$i -f /etc/tor/torrc$i --RunAsDaemon 1
 done
