@@ -54,7 +54,6 @@ ControlSocketsGroupWritable 1
 CookieAuthentication 1
 CookieAuthFileGroupReadable 1
 CookieAuthFile /var/run/tor$i/control.authcookie
-#Log notice file /var/log/tor$i/log
 Log notice file /dev/null
 
 EOF
