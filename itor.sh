@@ -12,6 +12,16 @@ then
 	apt-get update
 	apt-get install -y  tor-geoipdb
 fi
+
+
+echo "SOCKSPort 9050" > /etc/tor/torrc
+echo 'EntryNodes {RO}' >> /etc/tor/torrc
+echo "Log debug file /dev/null " >>  /etc/tor/torrc
+echo "Log notice file /dev/null" >> /etc/tor/torrc
+
+service tor restart
+
+
 echo -n "Starting $1 tor servers, please wait "
 for ((i=1;i<=$1;i++))
 do
