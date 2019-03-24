@@ -7,6 +7,11 @@ then
 	apt-get install -y tor tor-geoipdb
 fi
 
+if [ ! -f /usr/bin/killall ] 
+    apt-get update
+    apt-get install psmisc
+fi
+
 if [ ! -f /usr/share/tor/geoip ]
 then
 	apt-get update
