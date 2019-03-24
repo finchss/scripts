@@ -1,23 +1,10 @@
 export DEBIAN_FRONTEND=noninteractive
+apt-get update
+apt-get install -y tor tor-geoipdb psmisc 2>/dev/null >/dev/null
+
 killall -9 tor
 
-if [ ! -f /usr/bin/tor ]
-then
-	apt-get update
-	apt-get install -y tor tor-geoipdb
-fi
 
-if [ ! -f /usr/bin/killall ]
-then 
-    apt-get update
-    apt-get install psmisc
-fi
-
-if [ ! -f /usr/share/tor/geoip ]
-then
-	apt-get update
-	apt-get install -y  tor-geoipdb
-fi
 
 
 echo "SOCKSPort 9050" > /etc/tor/torrc
