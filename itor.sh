@@ -7,7 +7,8 @@ then
 	apt-get install -y tor tor-geoipdb
 fi
 
-if [ ! -f /usr/bin/killall ] 
+if [ ! -f /usr/bin/killall ]
+then 
     apt-get update
     apt-get install psmisc
 fi
