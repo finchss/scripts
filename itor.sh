@@ -1,8 +1,10 @@
 export DEBIAN_FRONTEND=noninteractive
-apt-get update
+echo "Update.."
+apt-get update >/dev/null 2>/dev/null
+echo "Install.."
 apt-get install -y tor tor-geoipdb psmisc libcurl3 2>/dev/null >/dev/null
 
-killall -9 tor
+killall -9 tor >/dev/null
 
 
 
