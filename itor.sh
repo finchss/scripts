@@ -1,9 +1,16 @@
 export DEBIAN_FRONTEND=noninteractive
-echo "Update.."
-apt-get update >/dev/null 2>/dev/null
-echo "Install.."
-apt-get install -y tor tor-geoipdb psmisc libcurl3 2>/dev/null >/dev/null
-
+if [ ! -f  /usr/sbin/tor ] 
+then 
+    echo "Update.."
+    apt-get update >/dev/null 2>/dev/null
+    echo "Install.."
+    apt-get install -y tor tor-geoipdb psmisc libcurl3 2>/dev/null >/dev/null
+fi
+if [ ! -f /usr/bin/killall ]
+then
+    apt-get update >/dev/null 2>/dev/null
+    apt-get install -y psmisc
+fi
 killall -9 tor >/dev/null
 
 
@@ -18,7 +25,7 @@ echo "SOCKSPort 9050" > /etc/tor/torrc
 
 	fi
 
-echo "Log debug file /dev/null " >>  /etc/tor/torrc
+#echo "Log debug file /dev/null " >>  /etc/tor/torrc
 echo "Log notice file /dev/null" >> /etc/tor/torrc
 
 service tor restart
@@ -56,7 +63,6 @@ ControlSocketsGroupWritable 1
 CookieAuthentication 1
 CookieAuthFileGroupReadable 1
 CookieAuthFile /var/run/tor$i/control.authcookie
-Log notice file /dev/null
 
 EOF
 
@@ -71,8 +77,8 @@ EOF
 
 	fi
 
-	echo "Log debug file /dev/null " >>  /etc/tor/torrc$i
-	echo "Log notice file /dev/null" >> /etc/tor/torrc$i
+	#echo "Log debug file /dev/null " >>  /etc/tor/torrc$i
+	#echo "Log notice file /dev/null" >> /etc/tor/torrc$i
 
 	/usr/bin/tor --defaults-torrc /usr/share/tor/tor-service-defaults-torrc$i -f /etc/tor/torrc$i --RunAsDaemon 1 >/dev/null 2>/dev/null
 	echo -n -e '\b'.
