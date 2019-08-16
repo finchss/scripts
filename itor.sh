@@ -66,7 +66,6 @@ CookieAuthFile /var/run/tor$i/control.authcookie
 
 EOF
 
-
 	let "port=9050+$i"
 	echo "SOCKSPort $port" > /etc/tor/torrc$i
 	if [ -z ${tcountry+x} ]
