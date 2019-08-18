@@ -1,0 +1,8 @@
+echo "stop mysql"
+service mysql stop
+d=`date +%d`
+echo "compress"
+tar -cf /mnt/backup/db-${d}.tar.bz2 --use-compress-prog=pbzip2 /var/lib/mysql/
+echo "start mysql"
+service mysql start
+

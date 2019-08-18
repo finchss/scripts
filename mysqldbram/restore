@@ -1,0 +1,9 @@
+service mysql stop
+umount /var/lib/mysql
+rm -rf /var/lib/mysql/
+mkdir /var/lib/mysql/
+chown mysql.mysql  /var/lib/mysql/ -R
+mount -t tmpfs -o size=32G tmpfs /var/lib/mysql
+cd /
+tar -xvjf /mnt/backup/db-17.tar.bz2
+service mysql start

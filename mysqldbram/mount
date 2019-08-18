@@ -1,0 +1,14 @@
+if [ ! -L /dev/mapper/backupdb ]  
+then
+    cryptsetup open /dev/md0 backupdb
+    if [ ! -d /mnt/backup ]
+    then 
+	mkdir /mnt/backup
+    fi
+    if [ ! -L /dev/mapper/backupdb ]  
+    then
+	echo "rerun, not mounted"
+	exit
+    fi
+    mount /dev/mapper/backupdb /mnt/backup
+fi
