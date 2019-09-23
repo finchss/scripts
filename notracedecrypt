@@ -1,0 +1,49 @@
+#!/bin/bash
+
+if [ $# -ne 1 ]
+then
+	echo blh
+	exit 
+fi
+if [ ! -f $1 ] 
+then
+	echo file $1 does not exist 
+	exit 
+fi
+
+t=`mktemp TMP_DECRYPT_XXXX`
+
+if [ ! -f ${t} ] 
+then
+	echo "Cannot create tmp file 1"
+	exit 
+fi
+
+if [ ! -f ${t1} ] 
+then
+	echo "Cannot create tmp file 2"
+	exit 
+fi
+
+
+t1=`mktemp TMP_DECRYPT_XXXX`
+
+
+
+echo -n 'Salted__' > ${t}
+cat $1 >> ${t}
+
+
+
+openssl aes-256-cbc -d -in ${t}  -out ${t1}
+if [ $? -ne 0 ]
+then
+	echo "Decryption failed"
+	rm -f ${t1} ${t}
+	exit 
+else
+	mv ${t1} $1
+	rm -f ${t}
+fi
+
+
