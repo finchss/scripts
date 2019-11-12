@@ -16,19 +16,19 @@ killall -9 tor >/dev/null
 
 
 
-echo "SOCKSPort 9050" > /etc/tor/torrc
-	if [ -z ${tcountry+x} ]
-	then 
-	    true; 
-	else 
-	    echo "EntryNodes {$tcountry}" >> /etc/tor/torrc
-
-	fi
+#echo "SOCKSPort 9050" > /etc/tor/torrc
+#	if [ -z ${tcountry+x} ]
+#	then 
+#	    true; 
+#	else 
+#	    echo "EntryNodes {$tcountry}" >> /etc/tor/torrc
+#
+#	fi
 
 #echo "Log debug file /dev/null " >>  /etc/tor/torrc
-echo "Log notice file /dev/null" >> /etc/tor/torrc
+#echo "Log notice file /dev/null" >> /etc/tor/torrc
 
-service tor restart
+#service tor restart
 
 
 echo -n "Starting $1 tor servers, please wait "
@@ -85,4 +85,5 @@ done
 echo " Done !"
 count=`ps axf|grep tor |grep -v grep |wc -l`
 echo $count tor servers running 
+
 
