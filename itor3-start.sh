@@ -1,5 +1,5 @@
 bld="/var/lib/mtor"
-for ((i=0;i<=500;i++))
+for ((i=0;i<=50;i++))
 do
     
 	if [ -f $bld/torrc$i ]

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-ns="ns2.he.net"
+ns="ns1.he.net"
 
 if  [ $# -ne 2 ] && [ $# -ne 3 ] 
 then
@@ -51,7 +51,7 @@ case $# in
 		then
 			iface_ip=`ip addr show dev ${iface} |grep inet |grep brd |awk '{print $2}' |cut -f 1 -d /`
 			iip=`host -4 ${hname} ${ns} | grep 'has address' |awk '{print $4}'`
-			if [ "${iip}" != "${iface_ip}" ]
+			if [ "${iip}" != "${iface_ip}" ] && [ ! -z ${iip} ]
 			then
 				echo "Host $hname resolved to $iip, updating to $iface_ip"
 				curl -4 -k "https://${hname}:${pass}@dyn.dns.he.net/nic/update?hostname=${hname}&myip=${iface_ip}"
