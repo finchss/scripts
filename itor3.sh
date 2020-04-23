@@ -1,5 +1,8 @@
 bld="/var/lib/mtor"
 
+
+mkdir ${bld} >/dev/null 2>/dev/null
+
 export DEBIAN_FRONTEND=noninteractive
 if [ ! -f  /usr/sbin/tor ] 
 then 
@@ -57,11 +60,11 @@ EOF
 
 	let "port=9050+$i"
 	echo "SOCKSPort $port" > $bld/torrc$i
-	if [ -z ${tcountry+x} ]
+	if [ -z ${tcountry} ]
 	then 
 	    true; 
 	else 
-	    echo "EntryNodes {$tcountry}" >> $bld/torrc$i
+	    echo "EntryNodes ${tcountry}" >> $bld/torrc$i
 
 	fi
 
