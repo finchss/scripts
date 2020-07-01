@@ -1,5 +1,14 @@
+#!/bin/bash -x
+#bld="/var/lib/mtor"
 bld="/var/lib/mtor"
-for ((i=0;i<=50;i++))
+
+if [ $# -ne 1 ]
+then
+    echo "blah"    
+    exit
+fi
+
+for ((i=0;i<=$1;i++))
 do
     
 	if [ -f $bld/torrc$i ]

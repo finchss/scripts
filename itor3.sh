@@ -1,3 +1,4 @@
+#bld="/dev/shm/mtor"
 bld="/var/lib/mtor"
 
 

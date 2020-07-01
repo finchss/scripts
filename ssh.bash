@@ -2,7 +2,7 @@
 <?php
 
     $i=$argv[1];
-    $i=str_replace("ssh://","",$i);
+    $i=str_replace("nothing://","",$i);
     $a=explode("@",$i);
     //var_dump($a);
     $up=$a[0];
@@ -21,6 +21,11 @@
     echo $user."\n";
     echo $pass."\n";
     $x=mt_rand(0,9999999);
+
+    $pass=str_replace('$','\$',$pass);
+    $pass=str_replace('"','\"',$pass);
+    $pass=str_replace('`','\`',$pass);
+
     file_put_contents("/tmp/cmd$x.sh","#!/bin/bash\n. torsocks on\nsshpass -p \"$pass\" ssh -v $user@$ip -p $port \n");
     chmod("/tmp/cmd$x.sh",0755);
     system("terminator -e /tmp/cmd$x.sh");
