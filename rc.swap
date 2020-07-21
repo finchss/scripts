@@ -1,0 +1,13 @@
+#!/bin/bash
+#dd if=/dev/zero of=/tmp/swap bs=1M count=16384; mkswap /tmp/swap;chmod 0600 /tmp/swap;swapon /tmp/swap
+touch /tmp/swap1
+chmod 0600 /tmp/swap1
+dd if=/dev/zero of=/tmp/swap1 bs=1M count=16384
+mkdir /dev/shm/key
+chmod 0700 /dev/shm/key
+dd bs=512 count=4 if=/dev/urandom of=/dev/shm/key/mykeyfile iflag=fullblock
+chmod 0600 /dev/shm/key/mykeyfile
+cryptsetup -q luksFormat /tmp/swap1 --key-file /dev/shm/key/mykeyfile
+cryptsetup luksOpen --key-file=/dev/shm/key/mykeyfile  /tmp/swap1 swap1
+if [ -L /dev/mapper/swap1 ]; then mkswap /dev/mapper/swap1; swapon /dev/mapper/swap1; fi
+

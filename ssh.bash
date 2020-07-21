@@ -26,7 +26,7 @@
     $pass=str_replace('"','\"',$pass);
     $pass=str_replace('`','\`',$pass);
 
-    file_put_contents("/tmp/cmd$x.sh","#!/bin/bash\n. torsocks on\nsshpass -p \"$pass\" ssh -v $user@$ip -p $port \n");
+    file_put_contents("/tmp/cmd$x.sh","#!/bin/bash\n. torsocks on\nsshpass -p \"$pass\" ssh -o StrictHostKeyChecking=accept-new -v $user@$ip -p $port \n");
     chmod("/tmp/cmd$x.sh",0755);
     system("terminator -e /tmp/cmd$x.sh");
     system("rm -f /tmp/cmd$x.sh");
