@@ -47,19 +47,33 @@ case $# in
 		iface=$1
 		hname=$2
 		pass=$3
-		if ( cat /proc/net/dev |grep "${iface}:" >/dev/null 2>&1) 
-		then
-			iface_ip=`ip addr show dev ${iface} |grep inet |grep brd |awk '{print $2}' |cut -f 1 -d /`
-			iip=`host -4 ${hname} ${ns} | grep 'has address' |awk '{print $4}'`
-			if [ "${iip}" != "${iface_ip}" ] && [ ! -z ${iip} ]
-			then
-				echo "Host $hname resolved to $iip, updating to $iface_ip"
-				curl -4 -k "https://${hname}:${pass}@dyn.dns.he.net/nic/update?hostname=${hname}&myip=${iface_ip}"
+		if [ $OSTYPE == "linux-gnu" ] ;then
+			if ( ! cat /proc/net/dev |grep "${iface}:" >/dev/null 2>&1) ; then
+				echo "No such interface "
+				exit 1
 			fi
-		else
-			echo "No such interface "
-			exit 1
 		fi
+		
+		if [ $OSTYPE == "linux-gnu" ] ;then
+			iface_ip=`ip addr show dev ${iface} |grep inet |grep brd |awk '{print $2}' |cut -f 1 -d /`
+		fi
+		
+		if [[ $OSTYPE == darwin* ]]; then
+			iface_ip=`ifconfig ${iface} |grep -E 'inet [0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' -o |cut -f 2 -d " "`
+		fi
+			
+		
+		iip=`host -4 ${hname} ${ns} | grep 'has address' |awk '{print $4}'`
+		if [ "${iip}" != "${iface_ip}" ] && [ ! -z ${iip} ]
+		then
+			echo "Host $hname resolved to $iip, updating to $iface_ip"
+			curl -4 -k "https://${hname}:${pass}@dyn.dns.he.net/nic/update?hostname=${hname}&myip=${iface_ip}"
+			echo 
+		else
+			echo "Ip is the same: ${iip}"
+			exit 0
+		fi
+		
 		
 	;;
 esac
