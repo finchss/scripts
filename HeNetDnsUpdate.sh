@@ -4,7 +4,7 @@
 dnsh=`which tdns`
 if [ -z "$dnsh" ]
 then
-	dnsh=`which hosts`
+	dnsh=`which host`
 	if [ -z "$dnsh" ]
 	then
 		echo "host and tdns not found, please install one of them"	
