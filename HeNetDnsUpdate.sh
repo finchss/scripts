@@ -1,4 +1,16 @@
-#!/bin/bash
+#!/bin/bash 
+
+
+dnsh=`which tdns`
+if [ -z "$dnsh" ]
+then
+	dnsh=`which hosts`
+	if [ -z "$dnsh" ]
+	then
+		echo "host and tdns not found, please install one of them"	
+		exit 1
+	fi
+fi
 
 
 ns="ns1.he.net"
@@ -23,15 +35,6 @@ fi
 
 case $# in 
 	2)
-		if (  which host >/dev/null 2 >&1 ) 
-		then 
-			echo '"host" is not installed'
-			echo -e "On debian you can use \"apt-get install bind9-host\" to install it"
-			exit
-		fi
-
-
-
 		if (  which curl >/dev/null 2 >&1 ) 
 		then 
 			echo '"curl" is not installed'
@@ -40,8 +43,7 @@ case $# in
 		fi
 
 		ip=`curl -s -4 -k https://api.ipify.org 2>/dev/null `
-		lip=`host -4 $1 {$ns}  | grep 'has address' |awk '{print $4}'`
-
+		lip=`${dnsh} -4 $1 ${ns}  2>/dev/null | grep 'has address' |awk '{print $4}'`
 		if [  "$ip" != "$lip" ] 
 		then 
 			echo Updating $1
@@ -73,12 +75,23 @@ case $# in
 			fi
 		fi
 			
-		
-		iip=`host -4 ${hname} ${ns} | grep 'has address' |awk '{print $4}'`
-		if [ "${iip}" != "${iface_ip}" ] && [ ! -z ${iip} ]
+		if [ -z "$iface_ip" ]
 		then
+			echo "Interface ${iface} has no ip configured"
+			exit 1
+		fi
+		iip=`${dnsh} -4 ${hname} ${ns} 2>/dev/null| grep 'has address' |awk '{print $4}'`
+		if [ -z "${iip}" ]
+		then
+			echo "Cannot resolve host ${hname}"
+			exit 1
+		fi 
+		
+		if [ "${iip}" != "${iface_ip}" ]
+		then
+			dynip=$(${dnsh} -4 dyn.dns.he.net| grep 'has address' |awk '{print $4}')
 			echo "Host $hname resolved to $iip, updating to $iface_ip"
-			curl -s -4 -k "https://${hname}:${pass}@dyn.dns.he.net/nic/update?hostname=${hname}&myip=${iface_ip}"
+			curl -s -4 -k "https://${hname}:${pass}@${dynip}/nic/update?hostname=${hname}&myip=${iface_ip}" -H 'Host: dyn.dns.he.net'
 			echo 
 		else
 			echo "Ip is the same: ${iip}"
