@@ -94,7 +94,7 @@ case $# in
 			curl -s -4 -k "https://${hname}:${pass}@${dynip}/nic/update?hostname=${hname}&myip=${iface_ip}" -H 'Host: dyn.dns.he.net'
 			echo 
 		else
-			echo "Ip is the same: ${iip}"
+			[[ -t 1 ]] && echo "Ip is the same: ${iip}"
 			exit 0
 		fi
 		
